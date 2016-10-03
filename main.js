@@ -26,8 +26,28 @@ word or runs out of guesses.
 -----------------------
 */ 
 
-
+//constants 
 const inquirer = require('inquirer'); 
+
+//variables 
+var game = require('./game.js');
+var word = require('./word.js'); 
+var letter = require('./letter.js'); 
+var guess = 'a'; 
+
+
+//get a random word 
+
+game.getWord(); 
+
+
+//check the guess 
+word.checkGuess(guess, game.random); 
+
+//display the word 
+letter.display(word.checked); 
+
+
 
 
 
