@@ -17,8 +17,24 @@ module.exports = {
 		this.random= list[rand]; 
 
 				
+	},
+
+	endGame:function(result){
+
+		switch(result){
+
+			case 'win':
+				console.log('you win'); 
+				break; 
+			case 'lose':
+				console.log('you lose'); 
+				break; 
+		}
 	}
+
 }
+
+
 
 
 

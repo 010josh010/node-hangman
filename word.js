@@ -7,23 +7,16 @@ the letters guessed versus the random word selected.
 */
 
 module.exports =  {
-	//compares the guess letter 
+	//compares the guess letter to find a match 
 	checkGuess:function(guess , choice){
-		var result = [];
-		var space = ' ';  
-		//loops through the random word to find matches 
+
 		for(var i = 0 ; i < choice.length; i++){
-			var letter = choice[i];
+			var letter = choice[i]; 
+
 			if(guess === letter){
-				result.push(letter)
-			}else if(letter === space){
-				result.push(space)
-			} else{
-				result.push('_');
+				return true; 
 			}
 		}
-
-		this.checked = result.join(' '); 
 	}
 }
 

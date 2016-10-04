@@ -33,20 +33,52 @@ const inquirer = require('inquirer');
 var game = require('./game.js');
 var word = require('./word.js'); 
 var letter = require('./letter.js'); 
+var guessCount = 0 ; 
 var guess = 'a'; 
 
 
-//get a random word 
+function main(){
+	//get a random word 
+	game.getWord(); 
 
-game.getWord(); 
 
+	//check the guess 
+	if(!word.checkGuess(guess, game.random)){
+		guessCount++; 
+		console.log(guessCount); 
+	}
 
-//check the guess 
-word.checkGuess(guess, game.random); 
+	//display the word 
 
-//display the word 
-letter.display(word.checked); 
+	letter.check(guess, game.random, word); 
 
+	//check for losses
+	if(guessCount > 9){
+
+		game.endGame('lose'); 
+	}
+
+	//check for a win 
+	function didYouWin(){
+		var hits = false; 
+		word.checked.split('').map(function(letter){
+
+			if(letter === '_'){
+				hits = true; 
+				console.log(hits); 
+			}
+		})
+
+		if(!hits){
+			game.endGame('win'); 
+		}
+	}
+
+	//display results
+	console.log(word.checked); 
+}
+
+main(); 
 
 
 

@@ -7,9 +7,26 @@ a "_" or as itself on-screen.
 */
 module.exports = {
 
-	display:function(checked){
+	check:function(guess , choice, word){
+		var result = [];
+		var space = ' ';  
+		
+		//loops through the random word to find matches 
+		for(var i = 0 ; i < choice.length; i++){
+			var letter = choice[i];
 
-		console.log(checked); 
+			if(guess === letter){
+				result.push(letter)
+
+			}else if(letter === space){
+				result.push(space)
+
+			} else{
+				result.push('_');
+			}
+		}
+
+		word.checked = result.join(' '); 
 	}
 
 }
