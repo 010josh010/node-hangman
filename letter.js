@@ -1,36 +1,56 @@
-
-/*
-* letter.js should control whether or not a letter appears as 
-a "_" or as itself on-screen.
----It reveals 
-
-*/
+//letter.js 
 module.exports = {
 
-	check:function(guess , choice, word){
-		var result = [];
-		var space = ' ';  
+	//checks the word to decide whether to show it or not 
+	check:function(guess , word){
 		
-		//loops through the random word to find matches 
-		for(var i = 0 ; i < choice.length; i++){
-			var letter = choice[i];
+		word.filter(function(letter){
+			
+			if(guess.toLowerCase() === letter.letter.toLowerCase() || letter.letter === ' '){
+				letter.show = true; 
+	
+			} 
+		})
 
-			if(guess === letter){
-				result.push(letter)
+	},
 
-			}else if(letter === space){
-				result.push(space)
+	//displays the word to the screen 
+	display:function(word){
+		//creates a new string 
+		var str = ''; 
 
-			} else{
-				result.push('_');
+		word.map(function(letter){
+			if(letter.show === true){
+				str += letter.letter+' '; 
+
+			}else{
+				str+= '_ '; 
 			}
-		}
+		})
 
-		word.checked = result.join(' '); 
-	}
+		console.log(str); 
+	}, 
+
+	//shows an encrypted string for the user to make a guess 
+	showHidden:function(choice){
+		var hiddenStr = '';
+		var space = ' '; 
+
+		for(var i = 0 ; i < choice.length; i++){
+			var letter = choice[i]; 
+			if(letter === space){
+				hiddenStr += ' '; 
+			} else{
+				hiddenStr += '_ ';
+			}
+		} 
+
+		console.log(hiddenStr); 
+	},
+
+
 
 }
-
 
 
 

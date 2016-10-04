@@ -1,36 +1,40 @@
-
-/*
-* Your game.js file will randomly select a word for the player.
-main.js will contain the logic of your app. Running it in
- Terminal/Bash will start the game.
-
-*/
-
-//data 
-var list = ['Turkey Burger', 'Caesar Salad', 'Pizza']; 
+//game.js 
 
 module.exports = {
 
-	getWord:function(){
-		var rand = Math.floor(Math.random() * list.length) + 0;  
+	//data 
+	list: ['Turkey Burger', 'Caesar Salad', 'Pizza'],  
 
-		this.random= list[rand]; 
+	//selects aw word from the list 
+	getWord:function(){
+		var rand = Math.floor(Math.random() * this.list.length) + 0;  
+
+		this.random=  this.list[rand]; 
 
 				
 	},
 
+	//ends the game with either a win or a loss 
 	endGame:function(result){
 
 		switch(result){
 
 			case 'win':
-				console.log('you win'); 
+				console.log('you win');
+				game.finished = true; 
 				break; 
 			case 'lose':
-				console.log('you lose'); 
+				console.log('you lose');
+				game.finished = true;  
 				break; 
 		}
-	}
+	},
+
+	//tells the program that this is a new game 
+	newGame:true, 
+
+	//tells the program that the game is finished 
+	finished:false 
 
 }
 

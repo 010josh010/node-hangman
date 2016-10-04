@@ -1,31 +1,3 @@
-
-//get random word and prompt the user for input 
-//check weather the input was valid 
-//display results 
-//make use of constructors in the letter.js and word.js files
-/* 
-describe -----
-
-* Both letter.js and word.js should be constructor files:
-
-* word.js should contain all of the methods which will check 
-the letters guessed versus the random word selected.
----It compares 
-
-* letter.js should control whether or not a letter appears as 
-a "_" or as itself on-screen.
----It 
-
-* Your game.js file will randomly select a word for the player.
-main.js will contain the logic of your app. Running it in
- Terminal/Bash will start the game.
-
-The app should end when a player guesses the correct 
-word or runs out of guesses.
-
------------------------
-*/ 
-
 //constants 
 const inquirer = require('inquirer'); 
 
@@ -33,51 +5,71 @@ const inquirer = require('inquirer');
 var game = require('./game.js');
 var word = require('./word.js'); 
 var letter = require('./letter.js'); 
-var guessCount = 0 ; 
-var guess = 'a'; 
+var guessesRemaining = 10; 
 
 
+//
 function main(){
-	//get a random word 
-	game.getWord(); 
+	
+	if(game.newGame){
+		//get a random word 
+		game.getWord();
 
+		//initalize new word 
+		word.inializeWord(game.random); 
+		//shows hidden word 
+		letter.showHidden(game.random); 
 
-	//check the guess 
-	if(!word.checkGuess(guess, game.random)){
-		guessCount++; 
-		console.log(guessCount); 
+		game.newGame = false; 
+	} 
+
+	
+	//prompt for input 
+	inquirer.prompt([
+	{
+		type:'input',
+		name:'guess', 
+		message:'Choose a letter', 
 	}
 
-	//display the word 
-
-	letter.check(guess, game.random, word); 
-
-	//check for losses
-	if(guessCount > 9){
-
-		game.endGame('lose'); 
-	}
-
-	//check for a win 
-	function didYouWin(){
-		var hits = false; 
-		word.checked.split('').map(function(letter){
-
-			if(letter === '_'){
-				hits = true; 
-				console.log(hits); 
+	]).then(function (answers) {
+	   var guess = answers.guess;
+	    	
+	    	//check the guess 
+			if(!word.checkGuess(guess, game.random)){
+				guessesRemaining--; 
+				console.log('Guesses Remaining:', guessesRemaining); 
 			}
-		})
 
-		if(!hits){
-			game.endGame('win'); 
-		}
-	}
+			//display the word 
+			letter.check(guess, word.checked); 
 
-	//display results
-	console.log(word.checked); 
+
+			//display results
+			letter.display(word.checked); 
+
+			//check for a winner 
+			word.isItTrue(game.endGame); 
+
+			//check for a loser 
+			if(guessesRemaining === 0){
+				game.endGame('lose'); 
+
+			}
+
+			//is the game over 
+			if(game.finished === true){
+				return false; 
+			}else{
+				//recursively calls the main method 
+				main(); 
+			}
+
+
+	});
 }
 
+//main program call 
 main(); 
 
 
